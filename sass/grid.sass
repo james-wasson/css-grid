@@ -1,0 +1,131 @@
+.grid
+  @import "breakpoint-mixins.sass"
+  @import "functions.sass"
+
+  display: grid
+  grid-auto-columns: 1fr
+  grid-auto-rows: auto
+  grid-template-columns: repeat($grid-column-count, 1fr)
+
+  // it applies globally but is equal to max-content for all column sizes/counts
+  &.has-columns-inline
+    display: inline-grid
+
+  // row/column counts
+  =grid-column-count($append-name, $size-value)
+    $append-name: if($append-name == null, "", "-" + $append-name)
+    @for $times from 1 through $grid-column-count
+      &.has-column-count-#{$times}#{$append-name}
+        grid-template-columns: repeat(#{$times}, #{$size-value})
+  =grid-row-count($size-value)
+    @for $times from 1 through $grid-row-count
+      &.has-row-count-#{$times}
+        grid-template-rows: repeat(#{$times}, #{$size-value})
+
+  // base size for all counts
+  +grid-column-count(null, 1fr)
+  +grid-row-count(auto)
+  +grid-mobile
+    +grid-column-count("mobile", 1fr)
+  +grid-tablet
+    +grid-column-count("tablet", 1fr)
+  +grid-touch
+    +grid-column-count("touch", 1fr)
+  +grid-desktop
+    +grid-column-count("desktop", 1fr)
+  +grid-widescreen
+    +grid-column-count("widescreen", 1fr)
+  +grid-fullhd
+    +grid-column-count("fullhd", 1fr)
+
+  // sizes for row
+  &.has-rows-fullheight
+    height: 100vh
+  &.has-rows-fullheight-with-navbar
+    height: calc(100vh - #{$navbar-height})
+  &.has-rows-equal,
+  &.has-rows-fullheight,
+  &.has-rows-fullheight-with-navbar
+    grid-auto-rows: 1fr
+    +grid-row-count(1fr)
+  
+  // auto flow - default is row
+  grid-auto-flow: row
+  &.has-flow-dense
+    grid-auto-flow: row dense
+  &.has-flow-column
+    grid-auto-flow: column
+    &.has-flow-dense
+      grid-auto-flow: column dense
+
+  // grid gap with overrides (do not reorder)
+  grid-column-gap: #{$grid-column-gap}
+  column-gap: #{$grid-column-gap}
+  grid-row-gap: #{$grid-row-gap}
+  row-gap: #{$grid-row-gap}
+  margin-bottom: #{$grid-row-gap}
+  &.is-column-gapless
+    grid-column-gap: 0
+    column-gap: 0
+  &.is-row-gapless
+    grid-row-gap: 0
+    row-gap: 0
+    margin-bottom: 0
+  &.is-gapless
+    grid-gap: 0
+    gap: 0
+    margin-bottom: 0
+
+  =grid-item-positions($append-name)
+    $append-name: if($append-name == null, "", "-" + $append-name)
+    @for $i from 1 through $grid-column-count
+      &.is-left-#{$i}#{$append-name}
+        &:not(.is-inverse-left)
+          grid-column-start: #{$i}
+        &.is-inverse-left
+          grid-column-end: #{-$i}
+    @for $i from 2 through $grid-column-count
+      &.is-width-#{$i}#{$append-name}
+        &:not(.is-inverse-left)
+          grid-column-end: #{$i} span
+        &.is-inverse-left
+          grid-column-start: #{$i} span
+    @for $i from 1 through $grid-row-count
+      &.is-top-#{$i}#{$append-name}
+        &:not(.is-inverse-top)
+          grid-row-start: #{$i}
+        &.is-inverse-top
+          grid-row-end: #{-$i}
+    @for $i from 2 through $grid-row-count
+      &.is-height-#{$i}#{$append-name}
+        &:not(.is-inverse-top)
+          grid-row-end: #{$i} span
+        &.is-inverse-top
+          grid-row-start: #{$i} span
+  
+  // display subgrids
+  @if $grid-nesting-count > 0
+    #{build-nested-selectors('&', '> .has-grid-children', $grid-nesting-count)}
+      display: contents
+
+  $grid-items-selector: '& > *'
+  @if $grid-nesting-count > 0
+    $grid-items-selector: $grid-items-selector + ',' + build-nested-selectors('&', '> .has-grid-children', $grid-nesting-count, '> *')
+  // positioning for the items with nesting
+  #{$grid-items-selector}
+    // no margin for nested grids
+    &.grid
+      margin-bottom: 0
+    +grid-item-positions(null)
+    +grid-mobile
+      +grid-item-positions("mobile")
+    +grid-tablet
+      +grid-item-positions("tablet")
+    +grid-touch
+      +grid-item-positions("touch")
+    +grid-desktop
+      +grid-item-positions("desktop")
+    +grid-widescreen
+      +grid-item-positions("widescreen")
+    +grid-fullhd
+      +grid-item-positions("fullhd")

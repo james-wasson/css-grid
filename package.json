@@ -1,0 +1,30 @@
+{
+  "name": "css-grid",
+  "version": "1.0.0",
+  "description": "A Simple CSS Grid wrapper made with SASS",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "node-sass": "^4.13.0"
+  },
+  "scripts": {
+    "build-sass": "node-sass --output-style expanded --source-map true main.sass css/grid.css",
+    "build-sass-min": "node-sass --output-style compressed --source-map true main.sass css/grid.min.css",
+    "build-all": "npm run build-sass && npm run build-sass-min"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/james-wasson/css-grid.git"
+  },
+  "keywords": [
+    "CSS",
+    "Grid",
+    "SASS"
+  ],
+  "author": "James Adam Wasson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/james-wasson/css-grid/issues"
+  },
+  "homepage": "https://github.com/james-wasson/css-grid#readme"
+}

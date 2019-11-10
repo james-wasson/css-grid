@@ -1,0 +1,11 @@
+// grid functions
+
+@function build-nested-selectors($base, $selector, $times, $finalizer: '')
+  @if $times <= 0
+    @return ''
+  $selectors: ()
+  @for $i from 1 through $times
+    $base: $base + ' ' + $selector
+    @debug $i
+    $selectors: append($selectors, unquote($base + ' ' + $finalizer), $separator: comma)
+  @return $selectors
