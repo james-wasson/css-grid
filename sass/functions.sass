@@ -3,9 +3,21 @@
 @function build-nested-selectors($base, $selector, $times, $finalizer: '')
   @if $times <= 0
     @return ''
-  $selectors: ()
+  $result: ()
   @for $i from 1 through $times
     $base: $base + ' ' + $selector
-    @debug $i
-    $selectors: append($selectors, unquote($base + ' ' + $finalizer), $separator: comma)
-  @return $selectors
+    $result: append($result, $base + ' ' + $finalizer, $separator: comma)
+  @return to-string($result, ",")
+
+@function to-string($list, $glue: '', $is-nested: false)
+  $result: '';
+
+  @for $i from 1 through length($list)
+    $e: nth($list, $i)
+
+    @if type-of($e) == list
+      $result: $result#{to-string($e, $glue, true)}
+    @else
+      $result: $result + $e + if($i != length($list) or $is-nested, #{$glue}, '')
+
+  @return $result

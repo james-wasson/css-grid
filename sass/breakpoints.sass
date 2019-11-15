@@ -1,0 +1,57 @@
+// bulma mixin overrides
+
+@import "bulma-variables.sass"
+
+=grid-mobile
+  @if $grid-mobile-enabled
+    @if mixin-exists("mobile")
+      +mobile
+        @content
+    @else
+      @media screen and (max-width: $tablet - 1px)
+        @content
+
+=grid-tablet
+  @if $grid-tablet-enabled
+    @if mixin-exists("tablet")
+      +tablet
+        @content
+    @else
+      @media screen and (min-width: $tablet), print
+        @content
+
+=grid-touch
+  @if $grid-touch-enabled
+    @if mixin-exists("touch")
+      +touch
+        @content
+    @else
+      @media screen and (max-width: $desktop - 1px)
+        @content
+
+=grid-desktop
+  @if $grid-desktop-enabled
+    @if mixin-exists("desktop")
+      +desktop
+        @content
+    @else
+      @media screen and (min-width: $desktop)
+        @content
+
+=grid-widescreen
+  @if $grid-widescreen-enabled
+    @if mixin-exists("widescreen")
+      +widescreen
+        @content
+    @else
+      @media screen and (min-width: $widescreen)
+        @content
+
+=grid-fullhd
+  @if $grid-fullhd-enabled
+    @if mixin-exists("fullhd")
+      +fullhd
+        @content
+    @else
+      @media screen and (min-width: $fullhd)
+        @content
