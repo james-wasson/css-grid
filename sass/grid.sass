@@ -20,9 +20,10 @@
     @if $first-value != null
       grid-template-rows: $first-value
     @if $grid-rows-resizeable
-      @for $times from if($first-value != null, 2, 1) through $grid-row-count
+      $offset: if($first-value != null, 1, 0)
+      @for $times from 1 + $offset through $grid-row-count
         &.has-row-count-#{$times}
-          grid-template-rows: $first-value repeat(#{$times}, #{$size-value})
+          grid-template-rows: $first-value repeat(#{$times - $offset}, #{$size-value})
 
   // base size for all counts
   grid-auto-columns: 1fr
@@ -114,7 +115,7 @@
   @if $grid-nesting-count > 0
     #{build-nested-selectors('&', '> .has-grid-children', $grid-nesting-count)}
       display: contents
-
+  
   $grid-items-selector: '& > *'
   @if $grid-nesting-count > 0
     $grid-items-selector: '& > *, ' + build-nested-selectors('&', '> .has-grid-children', $grid-nesting-count, '> *')

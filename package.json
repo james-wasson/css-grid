@@ -8,9 +8,9 @@
     "node-sass": "^4.13.0"
   },
   "scripts": {
-    "build-sass": "node-sass --output-style expanded --source-map true main.sass css/grid.css",
+    "build-sass": "node-sass --source-map true --output-style expanded main.sass css/grid.css",
     "build-sass-min": "node-sass --output-style compressed --source-map true main.sass css/grid.min.css",
-    "build-all": "npm run build-sass && npm run build-sass-min"
+    "build-all": "npm run build-sass & npm run build-sass-min"
   },
   "repository": {
     "type": "git",
