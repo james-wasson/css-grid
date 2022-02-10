@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "node-sass": "^4.13.0"
+    "node-sass": "^7.0.0"
   },
   "scripts": {
     "build-sass": "node-sass --source-map true --output-style expanded main.sass css/grid.css",
